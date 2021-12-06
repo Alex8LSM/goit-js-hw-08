@@ -1,24 +1,41 @@
 import throttle from 'lodash.throttle';
-import '../css/common.css';
-import '../css/03-feedback.css';
-const STORAGE_KEY = 'feedback-form-state';
+const storageKey = 'feedback-form-state';
 const form = document.querySelector('.feedback-form');
 const formData = {};
 form.addEventListener('submit', btnFormSubmit);
-form.addEventListener('input', throttle(makeDataArray, 500));
-function makeDataArray(evt) {
+form.addEventListener('input', throttle(saveData, 500));
+function saveData(evt) {
   formData[evt.target.name] = evt.target.value;
+
+  writeLocal(storageKey, formData);
 }
-function allInputData(evt) {
-  const inputData = JSON.stringify(formData);
-  localStorage.setItem(STORAGE_KEY, inputData);
+
+function writeLocal(key, data) {
+
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+
+  } catch (error) {
+   console.log(error);
+  }
+  
 }
-function textReturn(evt) {
-  const allDataReturn = JSON.parse(inputData);
-  localStorage.getItem(STORAGE_KEY, allDataReturn);
+
+function readLocal(key, data) {
+  try {
+    data = JSON.parse(localStorage.getItem(key));
+     form.email.value = data.email;
+     form.message.value = data.message;
+  } catch (error) {
+    // if an error
+  }
 }
+
 function btnFormSubmit(evt) {
   evt.preventDefault();
+  console.log(formData);
   evt.target.reset();
-  localStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(storageKey);
 }
+
+readLocal(storageKey, formData);
