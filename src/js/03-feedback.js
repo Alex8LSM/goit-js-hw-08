@@ -7,7 +7,6 @@ form.addEventListener('input', throttle(saveData, 500));
 function saveData() {
   formData.email = form.email.value;
   formData.message = form.message.value;
-  console.log(formData);
   writeLocal(storageKey, formData);
 }
 
