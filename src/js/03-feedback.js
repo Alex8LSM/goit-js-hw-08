@@ -4,9 +4,10 @@ const form = document.querySelector('.feedback-form');
 const formData = {};
 form.addEventListener('submit', btnFormSubmit);
 form.addEventListener('input', throttle(saveData, 500));
-function saveData(evt) {
-  formData[evt.target.name] = evt.target.value;
-
+function saveData() {
+  formData.email = form.email.value;
+  formData.message = form.message.value;
+  console.log(formData);
   writeLocal(storageKey, formData);
 }
 
@@ -18,14 +19,13 @@ function writeLocal(key, data) {
   } catch (error) {
    console.log(error);
   }
-  
 }
 
 function readLocal(key, data) {
   try {
     data = JSON.parse(localStorage.getItem(key));
-     form.email.value = data.email;
-     form.message.value = data.message;
+      form.email.value = data.email;
+      form.message.value = data.message;
   } catch (error) {
     // if an error
   }
