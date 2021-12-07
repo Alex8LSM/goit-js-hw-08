@@ -1,3 +1,6 @@
+# goit-js-hw-08
+Домашнє JS завдання №8
+
 # Parcel boilerplate
 
 ## Скрытые файлы
